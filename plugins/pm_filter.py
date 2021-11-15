@@ -28,6 +28,7 @@ SPELL_CHECK = {}
 
 @Client.on_message(filters.group & filters.text & ~filters.edited & filters.incoming)
 async def give_filter(client,message):
+await message.reply_chat_action("typing")
     group_id = message.chat.id
     name = message.text
 
