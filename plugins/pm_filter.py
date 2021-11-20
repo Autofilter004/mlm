@@ -663,9 +663,11 @@ async def auto_filter(client, msg, spoll=False):
     if imdb and imdb.get('poster'):
         try:
             myr = asyncio
-            joeltg = await message.reply_photo(photo=imdb.get('poster'), caption=cap, reply_markup=InlineKeyboardMarkup(btn))
-            await myr.sleep(1800)
-            await joeltg.delete
+            thayoli = sleep
+            popoori = delete
+            polayadi = await message.reply_photo(photo=imdb.get('poster'), caption=cap, reply_markup=InlineKeyboardMarkup(btn))
+            await myr.thayoli(1800)
+            await polayadi.popoori
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get('poster')
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
