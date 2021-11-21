@@ -712,7 +712,7 @@ async def advantage_spell_chok(msg):
     movielist += [(re.sub(r'(\-|\(|\)|_)', '', i, flags=re.IGNORECASE)).strip() for i in gs_parsed]
     movielist = list(dict.fromkeys(movielist)) # removing duplicates
     if not movielist:
-        k = await msg.reply("""<b>Sorry! Couldn't Find This Movie 😔! Search Correct Movie Name On Google And Try Again😃</b>""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='🔍 Search Google', url=f'https://www.google.com/search?q={msg.text}')], [InlineKeyboardButton(text="Close ⛔", callback_data=f'spolling#{user}#close_spellcheck')]]))
+        k = await msg.reply(f"""<b>Sorry! Couldn't Find This {msg.text} 😔! Search Correct Movie Name On Google And Try Again😃</b>""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='🔍 Search Google', url=f'https://www.google.com/search?q={msg.text}')], [InlineKeyboardButton(text="Close ⛔", callback_data=f'spolling#{user}#close_spellcheck')]]))
         await asyncio.sleep(8)
         await k.delete()
         return
@@ -721,7 +721,7 @@ async def advantage_spell_chok(msg):
                 InlineKeyboardButton(text='🔍 Search Google', url=f'https://www.google.com/search?q={msg.text}')
             ]]
     btn.append([InlineKeyboardButton(text="Close ⛔", callback_data=f'spolling#{user}#close_spellcheck')])
-    await msg.reply("""<b>Sorry! Couldn't Find This Movie 😔! Search Correct Movie Name On Google And Try Again😃</b>""", reply_markup=InlineKeyboardMarkup(btn))
+    await msg.reply(f"""<b>Sorry! Couldn't Find {msg.text} 😔! Search Correct Movie Name On Google And Try Again😃</b>""", reply_markup=InlineKeyboardMarkup(btn))
 
 
 async def search_gagala(text):
