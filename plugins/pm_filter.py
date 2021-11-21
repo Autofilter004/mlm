@@ -718,7 +718,7 @@ async def advantage_spell_chok(msg):
         return
     SPELL_CHECK[msg.message_id] = movielist
     btn = [[
-                InlineKeyboardButton(text='🔍 Search Google', url=f'https://www.google.com/search?q={msg.text}')
+                InlineKeyboardButton(text='🔍 Gᴏᴏɢʟᴇ Sᴇᴀʀᴄʜ 🔎', url=f'https://www.google.com/search?q={msg.text}')
             ]]
     btn.append([InlineKeyboardButton(text="Close ⛔", callback_data=f'spolling#{user}#close_spellcheck')])
     await msg.reply(f"""<b>Sorry! Couldn't Find {msg.text} 😔! Search Correct Movie Name On Google And Try Again😃</b>""", reply_markup=InlineKeyboardMarkup(btn))
