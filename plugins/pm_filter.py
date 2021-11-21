@@ -720,8 +720,8 @@ async def advantage_spell_chok(msg):
     btn = [[
                 InlineKeyboardButton(text='🔍 Gᴏᴏɢʟᴇ Sᴇᴀʀᴄʜ 🔎', url=f'https://www.google.com/search?q={msg.text}')
             ]]
-    btn.append([InlineKeyboardButton(text="Close ⛔", callback_data=f'spolling#{user}#close_spellcheck')])
-    await msg.reply(f"""<b>Sorry! Couldn't Find {msg.text} 😔! Search Correct Movie Name On Google And Try Again😃</b>""", reply_markup=InlineKeyboardMarkup(btn))
+    btn.append([InlineKeyboardButton(text="📝 Mᴜsᴛ Rᴇᴀᴅ | Cʟɪᴄᴋ Hᴇʀᴇ 📝", callback_data=f'spolling#{user}#close_spellcheck')])
+    await msg.reply(f"""<b>Couldn't Find {msg.text} ? Please Click MUST READ Button Below..!!\n\n{msg.text} മൂവി കിട്ടിയില്ല അല്ലെ ? താഴെ ഉള്ള ബട്ടനിൽ ക്ലിക്ക് ചെയി..!!</b>""", reply_markup=InlineKeyboardMarkup(btn))
 
 
 async def search_gagala(text):
