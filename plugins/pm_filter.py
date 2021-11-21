@@ -2,7 +2,8 @@
 import asyncio
 import re
 import ast
-
+from bs4 import BeautifulSoup
+import requests
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 from Script import script
 import pyrogram
@@ -679,13 +680,13 @@ async def auto_filter(client, msg, spoll=False):
         
 
 async def advantage_spell_chok(msg):
-    query = re.sub(r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|br((o|u)h?)*|^h(e)?(l)*(o)*|mal(ayalam)?|tamil|file|that|find|und(o)*|kit(t(i|y)?)?o(w)?|thar(o)*w?|kittum(o)*|aya(k)*(um(o)*)?|full\smovie|any(one)|with\ssubtitle)", "", msg.text, flags=re.IGNORECASE) # plis contribute some common words 
+    query = re.sub(r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|br((o|u)h?)*|^h(e|a)?(l)*(o)*|mal(ayalam)?|t(h)?amil|file|that|find|und(o)*|kit(t(i|y)?)?o(w)?|thar(u)?(o)*w?|kittum(o)*|aya(k)*(um(o)*)?|full\smovie|any(one)|with\ssubtitle(s)?)", "", msg.text, flags=re.IGNORECASE) # plis contribute some common words 
     query = query.strip() + " movie"
     g_s = await search_gagala(query)
     g_s += await search_gagala(msg.text)
     gs_parsed = []
     if not g_s:
-        k = await msg.reply("I couldn't find any movie in that name.")
+        k = await msg.reply("Check your spelling 🥴")
         await asyncio.sleep(8)
         await k.delete()
         return
@@ -711,18 +712,27 @@ async def advantage_spell_chok(msg):
     movielist += [(re.sub(r'(\-|\(|\)|_)', '', i, flags=re.IGNORECASE)).strip() for i in gs_parsed]
     movielist = list(dict.fromkeys(movielist)) # removing duplicates
     if not movielist:
-        k = await msg.reply("I couldn't find anything related to that. Check your spelling")
+        k = await msg.reply("""<b>Sorry! Couldn't Find This Movie 😔! Search Correct Movie Name On Google And Try Again😃</b>""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='🔍 Search Google', url=f'https://www.google.com/search?q={msg.text}')], [InlineKeyboardButton(text="Close ⛔", callback_data=f'spolling#{user}#close_spellcheck')]]))
         await asyncio.sleep(8)
         await k.delete()
         return
     SPELL_CHECK[msg.message_id] = movielist
     btn = [[
-                InlineKeyboardButton(
-                    text=movie.strip(),
-                    callback_data=f"spolling#{user}#{k}",
-                )
-            ] for k, movie in enumerate(movielist)]
-    btn.append([InlineKeyboardButton(text="Close", callback_data=f'spolling#{user}#close_spellcheck')])
-    await msg.reply("I couldn't find anything related to that\nDid you mean any one of these?", reply_markup=InlineKeyboardMarkup(btn))
-    
+                InlineKeyboardButton(text='🔍 Search Google', url=f'https://www.google.com/search?q={msg.text}')
+            ]]
+    btn.append([InlineKeyboardButton(text="Close ⛔", callback_data=f'spolling#{user}#close_spellcheck')])
+    await msg.reply("""<b>Sorry! Couldn't Find This Movie 😔! Search Correct Movie Name On Google And Try Again😃</b>""", reply_markup=InlineKeyboardMarkup(btn))
 
+
+async def search_gagala(text):
+    usr_agent = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+        'Chrome/61.0.3163.100 Safari/537.36'
+        }
+    text = text.replace(" ", '+')
+    url = f'https://www.google.com/search?q={text}'
+    response = requests.get(url, headers=usr_agent)
+    response.raise_for_status()
+    soup = BeautifulSoup(response.text, 'html.parser')
+    titles = soup.find_all( 'h3' )
+    return [title.getText() for title in titles]
